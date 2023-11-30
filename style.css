@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+    margin: 0; 
+    height: 100vh; 
+  }
+
+  /* .display {
+    text-align: center;
+    margin-top: 10px;
+  } */
+
+  #display {
+    display: flex;
+    justify-content: center; 
+    /* align-items: stretch; 
+    flex-wrap: wrap; 
+    gap: 16px; /* Adjust the gap between flex items  */
+    padding-left: 10px;
+    padding-right: 10px
+}
+
+.card {
+    flex: 0 0 calc(25% - 16px); 
+    max-width: calc(15% - 16px); 
+    box-sizing: border-box;
+    
+}
+
+  footer {
+    text-align: center;
+    background-color: black;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+  }
+
+  
+
+  /* .card-body.accordion-container .item_price_accordion 
+
+  .item_price_accordion {
+    display: none;
+  } */
