@@ -1,4 +1,7 @@
+
+/* Styled and aligned body/added flex */
 body {
+    background-color: lightslategrey;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -6,27 +9,22 @@ body {
     margin: 0; 
     height: 100vh; 
   }
-
-  /* .display {
-    text-align: center;
-    margin-top: 10px;
-  } */
-
+/* Aligned display items and added spaces */
   #display {
     display: flex;
-    justify-content: center; 
-    /* align-items: stretch; 
-    flex-wrap: wrap; 
-    gap: 16px; /* Adjust the gap between flex items  */
+    justify-content: center;
+    flex-wrap: wrap;  
+    gap: 16px;
     padding-left: 10px;
-    padding-right: 10px
+    padding-right: 10px;
+    padding-top: 15px;
 }
 
 .card {
     flex: 0 0 calc(25% - 16px); 
     max-width: calc(15% - 16px); 
     box-sizing: border-box;
-    
+    max-height: 100vh;
 }
 
   footer {
@@ -37,11 +35,7 @@ body {
     bottom: 0;
     width: 100vw;
   }
-
+   
   
 
-  /* .card-body.accordion-container .item_price_accordion 
-
-  .item_price_accordion {
-    display: none;
-  } */
+ 

@@ -1,15 +1,16 @@
 const baseURL = 'https://fakestoreapi.com/products/category';
-// const baseURL = 'https://fakestoreapi.com/products';
+
 const cart = [];
 
+document.getElementById('cartButton').addEventListener('click', updateCartModal);
+
 // Global Variables
-const searchDisplay = document.getElementById(`display`);
+const searchDisplay = document.getElementById('display');
 
 const searchClothesWomen = document.getElementById('clothingWomen');
 const searchClothesMen = document.getElementById('clothingMen');
 const searchElectronics = document.getElementById('electronics');
 const searchJewelry = document.getElementById('jewelry');
-// const searchCart = document.getElementById('shoppingCart');
 
 // Event Listeners
 searchClothesWomen.addEventListener('click', e => {
@@ -40,11 +41,6 @@ searchJewelry.addEventListener('click', e => {
   console.log();
 });
 
-// searchCart.addEventListener('click', e => {
-//   console.log(e);
-//   e.preventDefault();
-//   updateCartModal();
-// });
 
 // ------------------------------------------------------------------ //
 async function fakeStore(endPoint) {
@@ -60,10 +56,7 @@ async function fakeStore(endPoint) {
   }
 
 // ------------------------------------------------------------------ //  
-  window.onload = function () {
-    fakeStore(); 
-    
-};
+
 const removeElements = element => {
   while(element.firstChild) {
       element.removeChild(element.firstChild);
@@ -84,6 +77,7 @@ function displayCards(data) {
     let title = document.createElement('h5');
     let btn = document.createElement('a');
     let p = document.createElement('p');
+    let descriptionAccordion = document.createElement('div');
 
   // Set Attributes
     card.className = 'card';
@@ -91,16 +85,18 @@ function displayCards(data) {
     img.src = item.image;
     img.className = 'card-img-top';
     img.alt = item.title;
-    body.className = 'card-body.accordion-container';
-    title.className = 'card-title'; // active?
+    body.className = 'card-body';
+    title.className = 'card-title'; 
     title.textContent = item.title;
-    btn.className = 'btn btn-primary'; // active?
+    btn.className = 'btn btn-primary'; 
     btn.textContent = 'Add to Cart';
-    p.className = 'item_price_accordion';
+    p.className = 'item_price';
     p.textContent = `Price: $${item.price.toFixed(2)}`;
+    descriptionAccordion.className = 'accordion accordion-flush';
+
         btn.onclick = () => {
             submitToCart( {
-              item: item.id,
+              id: item.id,
               title: item.title,
               price: item.price,
               quantity: 1
@@ -119,7 +115,39 @@ function displayCards(data) {
 
     body.appendChild(p);
 
-    searchDisplay.appendChild(card);
+    let descriptionAccordionItem = document.createElement('div');
+    descriptionAccordionItem.className = 'accordion-item';
+
+    // Create accordion header
+    let descriptionAccordionHeader = document.createElement('h2');
+    descriptionAccordionHeader.className = 'accordion-header';
+    descriptionAccordionHeader.innerHTML = `
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}">
+        Description
+      </button>
+    `;
+
+    // Create accordion collapse element
+    let descriptionAccordionCollapse = document.createElement('div');
+    descriptionAccordionCollapse.id = `collapse${item.id}`;
+    descriptionAccordionCollapse.className = 'accordion-collapse collapse';
+    descriptionAccordionCollapse.innerHTML = `
+      <div class="accordion-body">
+        ${item.description}
+      </div>
+    `;
+
+    // Append the accordion elements
+    descriptionAccordionItem.appendChild(descriptionAccordionHeader);
+    descriptionAccordionItem.appendChild(descriptionAccordionCollapse);
+
+    // Append the accordion item to an accordion container
+    descriptionAccordion.appendChild(descriptionAccordionItem);
+
+    // Append the description accordion to the card
+    card.appendChild(descriptionAccordion);
+
+   searchDisplay.appendChild(card);
 });
 };
 
@@ -137,40 +165,28 @@ function submitToCart (item) {
   }
 };
 
+
 // ------------------------------------------------------------------ //
 function updateCartModal() {
-
-
-  // Initialize variables for calculations
+ 
   let total = 0;
   let tax = 0;
   let shipping = 0;
 
-
-  // Get the cart modal element
   const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
 
-  // Get the modal body element
   const cartModalBody = document.getElementById('cartModalBody');
 
-  // Clear existing content
   cartModalBody.innerHTML = '';
 
-  // Add header
-
-  //cartModalBody.innerHTML += '<h1>Cart</h1>';
-  //cartModalBody.innerHTML += '<hr>';
-
-
-  // Add column headers in a row
   cartModalBody.innerHTML += '<div class="row mb-3"><div class="col">Quantity</div><div class="col">Item</div><div class="col">Price</div></div>';
 
   if (cart.length === 0) {
-    // Display a message indicating that the cart is empty
-    displayEmptyCartMessage();
-    cartModal.show();
+    cartModalBody.innerHTML = '<p>Your cart is empty.</p>';
+    cartModal.show();                     
     return;
   }
+  
   // Iterate through cart items
   cart.forEach(item => {
       // Add horizontal line
@@ -181,6 +197,7 @@ function updateCartModal() {
       // Update total
       total += item.price * item.quantity;
   });
+
 
   // Add horizontal line
   cartModalBody.innerHTML += '<hr>';
@@ -197,9 +214,10 @@ function updateCartModal() {
   // Display tax
   cartModalBody.innerHTML += `<p>Tax: $${tax.toFixed(2)}</p>`;
   // Add horizontal line
-  cartModalBody.innerHTML += '<hr>';
 
+  cartModalBody.innerHTML += '<hr>';
   // Calculate shipping
+
   shipping = total * 0.10;
 
   // Display shipping
@@ -213,181 +231,28 @@ function updateCartModal() {
   
   // Add buttons
   cartModalBody.innerHTML += '<div class="row mt-3">';
-// /  / Only add the Clear Cart button if the cart is not empty
+  // Only add the Clear Cart button if the cart is not empty
   if (cart.length > 0) {
-    //cartModalBody.innerHTML += '<div class="col"><button class="btn btn-danger" onclick="clearCart()">Clear Cart</button></div>';
     cartModalBody.innerHTML += '<div class="col"><button id="clearCartBtn" class="btn btn-danger">Clear Cart</button></div>';
     cartModalBody.innerHTML += '&nbsp;'; // Add a space between the lines. 
     cartModalBody.innerHTML += `<div class="col"><button id="purchaseCartBtn" class="btn btn-success">Purchase for $${(total + tax + shipping).toFixed(2)}</button></div>`;
-    // Add close button (X)
-    //cartModalBody.innerHTML += '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
   }
-  //cartModalBody.innerHTML += '<div class="col"><button id="clearCartBtn" class="btn btn-danger">Clear Cart</button></div>'// Add Close button
-  //cartModalBody.innerHTML += '<div class="col text-end"><button class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>';
-  //cartModalBody.innerHTML += '</div>';
-    document.getElementById('cartButton').addEventListener('click', updateCartModal);
+
   // Add event listeners
-  // document.getElementById('cartButton').addEventListener('click', updateCartModal);
-    document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+
+    document.getElementById('clearCartBtn').addEventListener('click', function() {
+      cart.length = 0;
+      updateCartModal();
+    });
+
     document.getElementById('purchaseCartBtn').addEventListener('click', function() {
-    //purchaseCart(total + tax + shipping);
-    displayThanksMessage();
+      cart.length = 0;
+      cartModalBody.innerHTML = '';
+      cartModalBody.innerHTML = '<p>Thank you for your purchase.</p>';
   });
 
-
-  /*// Add buttons
-  cartModalBody.innerHTML += '<div class="row mt-3">';
-  cartModalBody.innerHTML += '<div class="col"><button class="btn btn-danger" onclick="clearCart()">Clear Cart</button></div>';
-  cartModalBody.innerHTML += `<div class="col text-end"><button class="btn btn-success" onclick="purchaseCart(${total + tax + shipping})">Purchase for $${(total + tax + shipping).toFixed(2)}</button></div>`;
-  cartModalBody.innerHTML += '</div>';
-  */
-
-  // Show the Bootstrap modal
   cartModal.show();
   
-};// end of function updateCartModal
-
-
-// function displayCart () {
-  
-
-//   let modalWindow = document.querySelector(`.modal`);
-//   removeElements(modalWindow);
-
-//   if (cart.length === 0) {
-//     modalWindow.textContent = 'Your Cart is Empty.'
-//   }
-
-// let total = 0;
-//   cart.forEach(item => {
-// let cartItem = document.createElement('div');
-// let title = document.createElement('h5');
-// let quantity = document.createElement('p');
-// let price = document.createElement('p');
-
-// total += item.price * item.quantity; 
-
-// cartItem.appendChild(title);
-// cartItem.appendChild(price);
-// cartItem.appendChild(quantity);
-// searchDisplay.appendChild(cartItem);
-// })
-
-// let totalDisplay = document.createElement('p');
-//   totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
-//   searchDisplay.appendChild(totalDisplay);
-
-//   // Now we calculate the tax and and display tax
-//   let tax = total * 0.06; // this is the Vermont state Tax rate.  
-//   let taxDisplay = document.createElement('p');
-//   taxDisplay.textContent = `Tax (6%): $${tax.toFixed(2)}`;
-//   searchDisplay.appendChild(taxDisplay);
-
-//   // Display total plus the tax now. 
-//   let totalPlusTaxDisplay = document.createElement('p');
-//   totalPlusTaxDisplay.textContent = `Total + Tax: $${(total + tax).toFixed(2)}`;
-//   modalWindow.appendChild(totalPlusTaxDisplay);
-
-//   // Shipping cost is set to 10% of the total price of the objects
-//   let shipping = total * 0.10;
-//   let shippingDisplay = document.createElement('p');
-//   shippingDisplay.textContent = `Shipping: $${shipping.toFixed(2)}`;
-//   modalWindow.appendChild(shippingDisplay);
-
-//   // Now we display total with the tax and the shipping amounts.
-//   let grandTotal = total + tax + shipping;
-//   let grandTotalDisplay = document.createElement('p');
-//   grandTotalDisplay.textContent = `Grand Total: $${grandTotal.toFixed(2)}`;
-//   modalWindow.appendChild(grandTotalDisplay);
-
-//   // We need to add a Purchase button
-//   let purchaseButton = document.createElement('button');
-//   purchaseButton.textContent = 'Purchase for $' + grandTotal.toFixed(2);
-//   purchaseButton.className = 'btn btn-success';
-//   purchaseButton.addEventListener('click', function () {
-//     alert('Thank you for your Purchase!  We appreciate it!');
-//     cart.length = 0; // Clear the cart
-//     displayCart(); // Display an updated cart
-//   });
-//   modalWindow.appendChild(purchaseButton);
-
-//   // Add the Clear Cart button
-//   let clearCartButton = document.createElement('button');
-//   clearCartButton.textContent = 'Clear Cart';
-//   clearCartButton.className = 'btn btn-danger';
-//   clearCartButton.addEventListener('click', function () {
-//     cart.length = 0; // Clear the cart here!
-//     displayCart(); // Display an updated cart here!  
-//   });
-//  modalWindow.appendChild(clearCartButton);
-// } // end of displayCart
-
-// // ------------------------------------------------------------------ //
-
-// function toggleContent(category) {
-//   const content = document.getElementById(`${category}Content`);
-//   if (content.style.display === 'none') {
-//     content.style.display = 'block';
-//     // Fetch data if not already fetched
-//     if (!content.dataset.fetched) {
-//       fakeStore(category);
-//       content.dataset.fetched = true;
-//     }
-//   } else {
-//     content.style.display = 'none';
-//   }
-// } // end of toggleContent
-
-// // ------------------------------------------------------------------ //
-
-// const removeElement = element => {
-//   while (element.firstChild) {
-//       element.removeChild(element.firstChild);
-//   }
-// };  // end of removeElements
-
-// ------------------------------------------------------------------ //
-
-// function submitToCart (item) {
-//   btn.onclick = () => {
-//     cart.push();
-// }
-
-
-
-
-// const accordions = document.querySelectorAll('.accordion-container .item_price_accordion');
-
-// accordions.forEach(accordion => {
-//   accordion.addEventListener('click', e => {
-//     accordion.classList.toggle('active');
-//   })
-
-// })
-
-
-       
-        // let obj = {
-        //   id: item.id;
-        //   title: item.title;
-        //   cost: item.price;
-          // quantity: // ???
-        // card.className = 'card';
-        // card.style.width = '18rem';
-        // img.src = item.image;
-        // img.className = 'card-img-top';
-        // img.alt = item.title;
-        // body.className = 'card-body accordion.container';
-        // title.className = 'card-title'; // active?
-        // title.textContent = item.title;
-        // btn.className = 'btn btn-primary accordion.content'; // active?
-        // btn.textContent = 'Add to Cart';
-        // p.textContent = `Price: $${item.price.toFixed(2)}`;
-        //     btn.onclick = () => {
-        //         cart.push();
-        //     }
-  
-
-
+};
 
 

@@ -14,17 +14,9 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="#">The Store</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-              <!-- <li class="nav-item">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalWindow">
-                  Open Cart
-               
-                
-                <a class="nav-link active" aria-current="page" id = "shoppingCart" href="#">Cart</a>
-              </li> -->
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" id = "clothingWomen" href="#">Women's Clothing</a>
               </li>
@@ -42,6 +34,7 @@
         </div>
       </nav>
       <!-- End Navbar -->
+
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#cartModal" id="cartButton">View Modal Cart</button>
       
       <!-- *Modal -->
@@ -49,15 +42,12 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div> -->
-            <div class="modal-body">
+              <h5 class="modal-title">Your Cart</h5>
+            </div> 
+            <div class="modal-body" id="cartModalBody">
               <!-- <p>Modal body text goes here.</p> -->
             </div>
             <div class="modal-footer">
-              <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
           </div>
         </div>
@@ -66,6 +56,7 @@
 
       <!--* Display Div -->
       <div id = "display">
+        
         <!-- <div class="col">
           <div class="card">
             <img src="..." class="card-img-top" alt="...">
