@@ -1,6 +1,7 @@
 const baseURL = 'https://fakestoreapi.com/products/category';
-
 const cart = [];
+
+// !how can I simplify my functions so they are less confusing to read? eliminate console.logs?
 
 document.getElementById('cartButton').addEventListener('click', updateCartModal);
 
@@ -43,7 +44,8 @@ searchJewelry.addEventListener('click', e => {
 
 
 // ------------------------------------------------------------------ //
-async function fakeStore(endPoint) {
+
+  const fakeStore = async(endPoint) => {
     try {
       let response = await fetch(`${baseURL}/${endPoint}`);
       let data = await response.json();
@@ -53,7 +55,24 @@ async function fakeStore(endPoint) {
     } catch (error) {
       console.error('Error:', error);
     }
+    // ! Should the window.onload function go here?
+// window.onload = function () {
+//   displayCards(data);
+// };
   }
+
+// ! Is this close to how I could accomplish the window.onload?
+//  window.onload = async function (endPoint) => {
+//     try {
+//       let response = await fetch(`${baseURL}/${endPoint}`);
+//       let data = await response.json();
+//       console.log(data);
+//       console.log('Data =', data);
+//       displayCards(data);
+//     } catch (error) {
+//       console.error('Error:', error);
+//     }
+//   }
 
 // ------------------------------------------------------------------ //  
 
@@ -64,9 +83,8 @@ const removeElements = element => {
 }
 
 // ------------------------------------------------------------------ //
-
-// Display Cards
-function displayCards(data) {
+ 
+  const displayCards = (data) => {
   removeElements(display);
   console.log(data);
   data.forEach(item => {
@@ -115,6 +133,8 @@ function displayCards(data) {
 
     body.appendChild(p);
 
+    // ! Should the accordion have been written into the html? How do I specifically target the price? Is my current accordion more complex than it needs to be?
+
     let descriptionAccordionItem = document.createElement('div');
     descriptionAccordionItem.className = 'accordion-item';
 
@@ -148,8 +168,15 @@ function displayCards(data) {
     card.appendChild(descriptionAccordion);
 
    searchDisplay.appendChild(card);
+  
 });
 };
+
+// ! Should the window.onload function go down here?
+// window.onload = function () {
+//   displayCards(data);
+// };
+
 
 // ------------------------------------------------------------------ //
 

@@ -20,11 +20,19 @@ body {
     padding-top: 15px;
 }
 
-.card {
+/* .card {
     flex: 0 0 calc(25% - 16px); 
     max-width: calc(15% - 16px); 
     box-sizing: border-box;
     max-height: 100vh;
+} */
+
+.card {
+  width: calc(25% - 16px); 
+  margin: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+  
 }
 
   footer {
