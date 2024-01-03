@@ -1,6 +1,6 @@
 
 /* Styled and aligned body/added flex */
-body {
+  body {
     background-color: lightslategrey;
     display: flex;
     align-items: center;
@@ -18,22 +18,15 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 15px;
-}
+  }
 
-/* .card {
-    flex: 0 0 calc(25% - 16px); 
-    max-width: calc(15% - 16px); 
+  .card {
+    width: calc(25% - 16px); 
+    margin: 5px;
     box-sizing: border-box;
-    max-height: 100vh;
-} */
-
-.card {
-  width: calc(25% - 16px); 
-  margin: 5px;
-  box-sizing: border-box;
-  padding: 10px;
-  
-}
+    padding: 10px;
+    
+  }
 
   footer {
     text-align: center;

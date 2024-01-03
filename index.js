@@ -5,15 +5,14 @@ document
   .getElementById("cartButton")
   .addEventListener("click", updateCartModal);
 
-// Global Variables
+// create global variables
 const searchDisplay = document.getElementById("display");
-
 const searchClothesWomen = document.getElementById("clothingWomen");
 const searchClothesMen = document.getElementById("clothingMen");
 const searchElectronics = document.getElementById("electronics");
 const searchJewelry = document.getElementById("jewelry");
 
-// Event Listeners
+// add event listeners
 searchClothesWomen.addEventListener("click", (e) => {
   console.log(e);
   e.preventDefault();
@@ -69,7 +68,7 @@ const displayCards = (data) => {
   removeElements(display);
   console.log(data);
   data.forEach((item) => {
-
+    // create elements
     let card = document.createElement("div");
     card.className = "card";
 
@@ -97,20 +96,11 @@ const displayCards = (data) => {
     priceAccordionItem.className = "accordion-item";
 
     // Set Attributes
-    //card.className = "card";
     card.style.width = "18rem";
-    //img.src = item.image;
-    //img.className = "card-img-top";
-    //img.alt = item.title;
-    //body.className = "card-body";
-    //body.textContent = item.description; 
-    //title.className = "card-title";
-    //title.textContent = item.title;
     btn.className = "btn btn-primary";
     btn.textContent = "Add to Cart";
     price.className = "item_price";
     price.textContent = `Price: $${item.price.toFixed(2)}`;
-    // descriptionAccordion.className = "accordion accordion-flush";
     priceAccordion.className = "accordion accordion-flush";
 
     btn.onclick = () => {
@@ -122,14 +112,7 @@ const displayCards = (data) => {
       });
     };
 
-    //! still need to get rid of extra price text (non accordion) and add description back in. Move add to cart button lower if possible.
-
-    // Append the elements to their parents
-    //body.appendChild(title);
-    //body.appendChild(description);
-
-    body.appendChild(btn);
-
+  
     // append the children.  
     body.appendChild(title);
     body.appendChild(description);
@@ -137,37 +120,14 @@ const displayCards = (data) => {
     card.appendChild(body);
     card.appendChild(priceAccordion);
 
-    //let body = document.createElement("div");
     body.className = "card-body";
-    //body.appendChild(title); // Move the title below the image
-
-    //card.appendChild(body);
-
-    //body.appendChild(priceAccordion);
+    
     searchDisplay.appendChild(card);
 
-    //card.appendChild(body);
-
-    //body.appendChild(price);
-
-    // body.appendChild(title);
-
-    // body.appendChild(price);
-
-    // body.appendChild(btn);
+    body.appendChild(btn);
 
 
-
-    // card.appendChild(img);
-
-    // card.appendChild(body);
-
-
-   
-   //!Try to shorten cards, uniform. Move button to bottom.
-    //let priceAccordionItem = document.createElement("div");
-    //priceAccordionItem.className = "accordion-item";
-
+    // create price accordion
     let priceAccordionHeader = document.createElement("h2");
     priceAccordionHeader.className = "accordion-header";
     priceAccordionHeader.innerHTML = 
@@ -196,8 +156,6 @@ searchDisplay.appendChild(card);
   });
 };
 
-// ------------------------------------------------------------------ //
-
 function submitToCart(item) {
   const existingItem = cart.find((cartItem) => cartItem.id === item.id);
 
@@ -208,7 +166,7 @@ function submitToCart(item) {
   }
 }
 
-// ------------------------------------------------------------------ //
+
 function updateCartModal() {
   let total = 0;
   let tax = 0;
