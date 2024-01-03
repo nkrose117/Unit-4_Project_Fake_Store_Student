@@ -1,10 +1,6 @@
 const baseURL = "https://fakestoreapi.com/products/";
 const cart = [];
 
-//! make sure to use "prettier" for code.
-
-// eliminate console.logs?
-
 document
   .getElementById("cartButton")
   .addEventListener("click", updateCartModal);
@@ -21,7 +17,7 @@ const searchJewelry = document.getElementById("jewelry");
 searchClothesWomen.addEventListener("click", (e) => {
   console.log(e);
   e.preventDefault();
-  fakeStore(`category/women's clothing`); //! category added to each of these after original submission.
+  fakeStore(`category/women's clothing`); 
   console.log();
 });
 
@@ -46,7 +42,6 @@ searchJewelry.addEventListener("click", (e) => {
   console.log();
 });
 
-// ------------------------------------------------------------------ //
 
 const fakeStore = async (endPoint) => {
   try {
@@ -59,11 +54,9 @@ const fakeStore = async (endPoint) => {
     console.error("Error:", error);
   }
 };
-window.onload = function () { //! added after original submission
+window.onload = function () { 
   fakeStore(``);
 };
-
-// ------------------------------------------------------------------ //
 
 const removeElements = (element) => {
   while (element.firstChild) {
@@ -71,31 +64,48 @@ const removeElements = (element) => {
   }
 };
 
-// ------------------------------------------------------------------ //
 
 const displayCards = (data) => {
   removeElements(display);
   console.log(data);
   data.forEach((item) => {
-    // Create Elements
-    let card = document.createElement("div");
-    let img = document.createElement("img");
-    let body = document.createElement("div");
-    let title = document.createElement("h5");
-    let btn = document.createElement("a");
-    let price = document.createElement("p");
-    let priceAccordion = document.createElement("div");
 
-    // Set Attributes
+    let card = document.createElement("div");
     card.className = "card";
-    card.style.width = "18rem";
+
+    let img = document.createElement("img");
     img.src = item.image;
     img.className = "card-img-top";
     img.alt = item.title;
+
+    let body = document.createElement("div");
     body.className = "card-body";
-    body.textContent = item.description; //! just added
+
+    let title = document.createElement("h5");
     title.className = "card-title";
     title.textContent = item.title;
+
+    let description = document.createElement("p");
+    description.className = "card-text";
+    description.textContent = item.description;
+
+    let btn = document.createElement("a");
+    let price = document.createElement("p");
+    let priceAccordion = document.createElement("div");
+    
+    let priceAccordionItem = document.createElement("div");
+    priceAccordionItem.className = "accordion-item";
+
+    // Set Attributes
+    //card.className = "card";
+    card.style.width = "18rem";
+    //img.src = item.image;
+    //img.className = "card-img-top";
+    //img.alt = item.title;
+    //body.className = "card-body";
+    //body.textContent = item.description; 
+    //title.className = "card-title";
+    //title.textContent = item.title;
     btn.className = "btn btn-primary";
     btn.textContent = "Add to Cart";
     price.className = "item_price";
@@ -114,16 +124,31 @@ const displayCards = (data) => {
 
     //! still need to get rid of extra price text (non accordion) and add description back in. Move add to cart button lower if possible.
 
-    // Attach Elements
-    body.appendChild(title);
+    // Append the elements to their parents
+    //body.appendChild(title);
+    //body.appendChild(description);
 
     body.appendChild(btn);
 
+    // append the children.  
+    body.appendChild(title);
+    body.appendChild(description);
     card.appendChild(img);
-
     card.appendChild(body);
+    card.appendChild(priceAccordion);
 
-    body.appendChild(price);
+    //let body = document.createElement("div");
+    body.className = "card-body";
+    //body.appendChild(title); // Move the title below the image
+
+    //card.appendChild(body);
+
+    //body.appendChild(priceAccordion);
+    searchDisplay.appendChild(card);
+
+    //card.appendChild(body);
+
+    //body.appendChild(price);
 
     // body.appendChild(title);
 
@@ -140,8 +165,8 @@ const displayCards = (data) => {
 
    
    //!Try to shorten cards, uniform. Move button to bottom.
-    let priceAccordionItem = document.createElement("div");
-    priceAccordionItem.className = "accordion-item";
+    //let priceAccordionItem = document.createElement("div");
+    //priceAccordionItem.className = "accordion-item";
 
     let priceAccordionHeader = document.createElement("h2");
     priceAccordionHeader.className = "accordion-header";
@@ -168,39 +193,6 @@ card.appendChild(priceAccordion);
 
 searchDisplay.appendChild(card);
 
-    // let descriptionAccordionItem = document.createElement("div");
-    // descriptionAccordionItem.className = "accordion-item";
-
-    // // Create accordion header
-    // let descriptionAccordionHeader = document.createElement("h2");
-    // descriptionAccordionHeader.className = "accordion-header";
-    // descriptionAccordionHeader.innerHTML = `
-    //   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}">
-    //     Description
-    //   </button>
-    // `;
-
-    // // Create accordion collapse element
-    // let descriptionAccordionCollapse = document.createElement("div");
-    // descriptionAccordionCollapse.id = `collapse${item.id}`;
-    // descriptionAccordionCollapse.className = "accordion-collapse collapse";
-    // descriptionAccordionCollapse.innerHTML = `
-    //   <div class="accordion-body">
-    //     ${item.description}
-    //   </div>
-    // `;
-
-    // // Append the accordion elements
-    // descriptionAccordionItem.appendChild(descriptionAccordionHeader);
-    // descriptionAccordionItem.appendChild(descriptionAccordionCollapse);
-
-    // // Append the accordion item to an accordion container
-    // descriptionAccordion.appendChild(descriptionAccordionItem);
-
-    // // Append the description accordion to the card
-    // card.appendChild(descriptionAccordion);
-
-    // searchDisplay.appendChild(card);
   });
 };
 
